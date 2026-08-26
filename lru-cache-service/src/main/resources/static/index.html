@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LRU Cache Service</title>
+<style>
+  :root { --bg:#000; --fg:#fff; --muted:#a3a3a3; --border:#2b2b2b; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; padding:2rem 1.5rem; }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size:1.4rem; margin:0 0 .25rem; }
+  p.sub { color:var(--muted); margin:0 0 2rem; font-size:.9rem; }
+  fieldset { border:1px solid var(--border); border-radius:4px; padding:1rem; margin-bottom:1.25rem; }
+  legend { padding:0 .4rem; color:var(--muted); font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; }
+  label { display:block; font-size:.8rem; color:var(--muted); margin-bottom:.3rem; }
+  input { width:100%; background:#0d0d0d; border:1px solid var(--border); color:var(--fg); padding:.5rem .6rem; border-radius:3px; font-size:.9rem; margin-bottom:.75rem; }
+  .row { display:flex; gap:.75rem; }
+  .row > div { flex:1; }
+  button { border:1px solid #fff; background:transparent; color:#fff; padding:.5rem 1rem; border-radius:2px; cursor:pointer; font-size:.85rem; margin-right:.5rem; }
+  button:hover { background:#fff; color:#000; }
+  pre { background:#0d0d0d; border:1px solid var(--border); border-radius:4px; padding:1rem; font-size:.8rem; overflow-x:auto; white-space:pre-wrap; word-break:break-word; }
+  #stats { color:var(--muted); font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.8rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>LRU Cache Service</h1>
+  <p class="sub">O(1) get/put backed by a HashMap + doubly linked list, exposed as a REST API.</p>
+
+  <fieldset>
+    <legend>Try it</legend>
+    <div class="row">
+      <div><label for="key">Key</label><input id="key" placeholder="e.g. user:42" /></div>
+      <div><label for="value">Value</label><input id="value" placeholder="e.g. hello" /></div>
+    </div>
+    <button onclick="doPut()">PUT</button>
+    <button onclick="doGet()">GET</button>
+    <button onclick="doDelete()">DELETE</button>
+    <button onclick="doStats()">Stats</button>
+  </fieldset>
+
+  <div id="stats">—</div>
+  <pre id="out">Response will show here.</pre>
+</div>
+
+<script>
+  const out = document.getElementById('out');
+  const statsEl = document.getElementById('stats');
+
+  function base() {
+    // Same-origin: works whether hit directly on :8082 or proxied under /lru-cache.
+    return window.location.pathname.replace(/\/$/, '').replace(/\/index\.html$/, '');
+  }
+
+  async function refreshStats() {
+    try {
+      const res = await fetch(`${base()}/cache/stats`);
+      const data = await res.json();
+      statsEl.textContent = `capacity=${data.capacity}  size=${data.size}  hits=${data.hits}  misses=${data.misses}`;
+    } catch (e) {
+      statsEl.textContent = 'stats unavailable';
+    }
+  }
+
+  async function show(res) {
+    let body;
+    try { body = await res.json(); } catch { body = null; }
+    out.textContent = `${res.status} ${res.statusText}\n` + (body ? JSON.stringify(body, null, 2) : '(no body)');
+    refreshStats();
+  }
+
+  async function doPut() {
+    const key = document.getElementById('key').value;
+    const value = document.getElementById('value').value;
+    if (!key) return;
+    const res = await fetch(`${base()}/cache/${encodeURIComponent(key)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value }),
+    });
+    show(res);
+  }
+
+  async function doGet() {
+    const key = document.getElementById('key').value;
+    if (!key) return;
+    const res = await fetch(`${base()}/cache/${encodeURIComponent(key)}`);
+    show(res);
+  }
+
+  async function doDelete() {
+    const key = document.getElementById('key').value;
+    if (!key) return;
+    const res = await fetch(`${base()}/cache/${encodeURIComponent(key)}`, { method: 'DELETE' });
+    show(res);
+  }
+
+  async function doStats() {
+    const res = await fetch(`${base()}/cache/stats`);
+    show(res);
+  }
+
+  refreshStats();
+</script>
+</body>
+</html>
