@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS project (
     project_url   VARCHAR(300),
     repo_url      VARCHAR(300),
     display_order INT           NOT NULL DEFAULT 0,
-    -- Both nullable: only design/LLD-style projects (no running "Live" demo) use them.
-    tag           VARCHAR(60),
-    rationale     VARCHAR(1200)
+    -- All nullable: only projects with something extra to say use them.
+    tag               VARCHAR(60),
+    rationale         VARCHAR(1200),
+    rationale_heading VARCHAR(60)
 );

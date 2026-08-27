@@ -44,6 +44,12 @@ public class Project {
     @Size(max = 1200)
     private String rationale;
 
+    // Heading shown above `rationale` on the detail page; defaults to "Design
+    // rationale" client-side when null (see ProjectDetail.jsx).
+    @Column(name = "rationale_heading")
+    @Size(max = 60)
+    private String rationaleHeading;
+
     public Project() {
     }
 
@@ -117,5 +123,13 @@ public class Project {
 
     public void setRationale(String rationale) {
         this.rationale = rationale;
+    }
+
+    public String getRationaleHeading() {
+        return rationaleHeading;
+    }
+
+    public void setRationaleHeading(String rationaleHeading) {
+        this.rationaleHeading = rationaleHeading;
     }
 }

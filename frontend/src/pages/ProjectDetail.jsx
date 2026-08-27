@@ -20,7 +20,7 @@ export default function ProjectDetail() {
     )
   }
 
-  const { title, description, projectUrl, repoUrl, tag, rationale } = project
+  const { title, description, projectUrl, repoUrl, tag, rationale, rationaleHeading } = project
   const Thumbnail = getThumbnail(title)
 
   return (
@@ -60,7 +60,7 @@ export default function ProjectDetail() {
 
         {rationale && (
           <div className="project-detail-rationale">
-            <h2>Design rationale</h2>
+            <h2>{rationaleHeading || 'Design rationale'}</h2>
             <p>{rationale}</p>
           </div>
         )}
