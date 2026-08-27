@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Local H2 database files (schema/data are reseeded from schema.sql/data.sql on every start)
+data/

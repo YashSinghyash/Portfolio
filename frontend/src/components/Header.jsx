@@ -1,13 +1,15 @@
+import { Link } from 'react-router-dom'
+
 export default function Header() {
   return (
     <header className="site-header">
       <div className="container">
-        <a className="brand" href="#home">
+        <Link className="brand" to="/">
           Yash Pratap Singh
-        </a>
+        </Link>
         <nav className="main-nav" aria-label="Primary">
-          <a href="#home">Home</a>
-          <a href="#projects">Projects</a>
+          <Link to="/">Home</Link>
+          <Link to="/#projects">Projects</Link>
         </nav>
       </div>
     </header>

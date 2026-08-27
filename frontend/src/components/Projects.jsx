@@ -1,30 +1,8 @@
-import { useEffect, useState } from 'react'
 import ProjectCard from './ProjectCard.jsx'
-import { fetchProjects, FALLBACK_PROJECTS } from '../api/projects.js'
+import { useProjects } from '../hooks/useProjects.js'
 
 export default function Projects() {
-  // Render placeholders immediately so this section never blocks on the network;
-  // swap in real data from the Spring Boot API as soon as it arrives.
-  const [projects, setProjects] = useState(FALLBACK_PROJECTS)
-  const [source, setSource] = useState('placeholder')
-
-  useEffect(() => {
-    const controller = new AbortController()
-
-    fetchProjects({ signal: controller.signal })
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setProjects(data)
-          setSource('api')
-        }
-      })
-      .catch(() => {
-        // Backend not reachable yet — keep showing the local placeholders.
-        setSource('placeholder')
-      })
-
-    return () => controller.abort()
-  }, [])
+  const { projects, source } = useProjects()
 
   return (
     <section id="projects" className="projects">

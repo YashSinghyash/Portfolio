@@ -133,10 +133,22 @@ img {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
+.btn--disabled {
+  border-color: var(--border);
+  color: var(--fg-muted);
+  cursor: default;
+}
+
 .btn:hover,
 .btn:focus-visible {
   background: var(--fg);
   color: var(--bg);
+}
+
+.btn--disabled:hover,
+.btn--disabled:focus-visible {
+  background: transparent;
+  color: var(--fg-muted);
 }
 
 /* ---------- Projects ---------- */
@@ -171,6 +183,7 @@ img {
 }
 
 .project-card {
+  position: relative;
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 1.5rem;
@@ -179,6 +192,21 @@ img {
   flex-direction: column;
   gap: 0.9rem;
   transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+/* Stretched link: makes the whole card open the project detail page, while
+   the real Live/Code anchors below (given a higher stacking order) stay
+   independently clickable on top of it. */
+.project-card-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.project-card-cover:focus-visible {
+  outline: 1px solid var(--border-strong);
+  outline-offset: -1px;
 }
 
 .project-card:hover {
@@ -223,7 +251,51 @@ img {
   flex-grow: 1;
 }
 
+.project-card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.project-card-header h3 {
+  margin: 0;
+}
+
+.project-tag {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+}
+
+.project-diagram {
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.5rem;
+}
+
+.project-diagram svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project-card .project-rationale {
+  font-size: 0.85rem;
+  border-left: 2px solid var(--border);
+  padding-left: 0.75rem;
+}
+
 .project-card-links {
+  position: relative;
+  z-index: 2;
   display: flex;
   gap: 1rem;
   font-size: 0.85rem;
@@ -238,6 +310,108 @@ img {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   margin-bottom: 1.5rem;
+}
+
+/* ---------- Project detail page ---------- */
+
+.project-detail {
+  padding: 3rem 0 5rem;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: var(--fg);
+}
+
+.project-detail-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.project-detail-header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  margin: 0;
+}
+
+.project-detail-description {
+  color: var(--fg-muted);
+  font-size: 1.05rem;
+  max-width: 60ch;
+  margin: 0 0 2.5rem;
+}
+
+.project-detail-preview h2,
+.project-detail-rationale h2 {
+  font-size: 1rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  margin: 0 0 1rem;
+}
+
+.project-detail-preview {
+  margin-bottom: 2.5rem;
+}
+
+.project-detail-preview .project-diagram {
+  max-width: 480px;
+}
+
+.project-live-embed {
+  margin-top: 1.5rem;
+  max-width: 640px;
+}
+
+.project-live-embed iframe {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+}
+
+.project-detail-open-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  text-decoration: none;
+}
+
+.project-detail-open-link:hover,
+.project-detail-open-link:focus-visible {
+  color: var(--fg);
+}
+
+.project-detail-rationale {
+  max-width: 68ch;
+  margin-bottom: 2.5rem;
+}
+
+.project-detail-rationale p {
+  color: var(--fg-muted);
+  font-size: 0.98rem;
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.project-detail-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 /* ---------- Footer ---------- */

@@ -5,5 +5,8 @@ CREATE TABLE IF NOT EXISTS project (
     image_url     VARCHAR(300),
     project_url   VARCHAR(300),
     repo_url      VARCHAR(300),
-    display_order INT           NOT NULL DEFAULT 0
+    display_order INT           NOT NULL DEFAULT 0,
+    -- Both nullable: only design/LLD-style projects (no running "Live" demo) use them.
+    tag           VARCHAR(60),
+    rationale     VARCHAR(1200)
 );

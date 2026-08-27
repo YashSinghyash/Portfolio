@@ -37,6 +37,13 @@ public class Project {
     @Column(name = "display_order")
     private int displayOrder;
 
+    // Only design/LLD-style projects (no running "Live" demo) use these.
+    @Size(max = 60)
+    private String tag;
+
+    @Size(max = 1200)
+    private String rationale;
+
     public Project() {
     }
 
@@ -94,5 +101,21 @@ public class Project {
 
     public void setDisplayOrder(int displayOrder) {
         this.displayOrder = displayOrder;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getRationale() {
+        return rationale;
+    }
+
+    public void setRationale(String rationale) {
+        this.rationale = rationale;
     }
 }
