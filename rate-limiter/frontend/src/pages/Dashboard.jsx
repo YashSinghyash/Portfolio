@@ -2,18 +2,31 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchClients } from '../api/client.js'
 
+const POLL_INTERVAL_MS = 5000
+
 export default function Dashboard() {
   const [clients, setClients] = useState(null)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const controller = new AbortController()
-    fetchClients()
-      .then(setClients)
-      .catch((err) => {
-        if (err.name !== 'AbortError') setError(err)
-      })
-    return () => controller.abort()
+    let cancelled = false
+
+    function load() {
+      fetchClients()
+        .then((data) => {
+          if (!cancelled) setClients(data)
+        })
+        .catch((err) => {
+          if (!cancelled) setError(err)
+        })
+    }
+
+    load()
+    const interval = setInterval(load, POLL_INTERVAL_MS)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
   }, [])
 
   if (error) {

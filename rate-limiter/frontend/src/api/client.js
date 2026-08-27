@@ -23,5 +23,10 @@ export function fetchClientStats(clientKey) {
   return getJson(`/clients/${encodeURIComponent(clientKey)}/stats`)
 }
 
-// simulateRequest() (POST /simulate/{clientKey}) lands in Phase 4 along with
-// the "Simulate requests" button that calls it.
+export async function simulateRequest(clientKey) {
+  const res = await fetch(`${API_BASE}/simulate/${encodeURIComponent(clientKey)}`, { method: 'POST' })
+  // 429 is an expected, meaningful response here (rate limit hit) -- not an
+  // error to throw, the caller needs to see it to update the UI.
+  const body = await res.json().catch(() => null)
+  return { status: res.status, allowed: res.ok, body }
+}
