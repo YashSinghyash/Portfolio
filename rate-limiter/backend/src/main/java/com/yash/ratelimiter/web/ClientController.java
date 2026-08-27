@@ -17,7 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
-@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
+@CrossOrigin(origins = {
+        "http://localhost:5173", "http://127.0.0.1:5173", // portfolio (proxies this under /rate-limiter)
+        "http://localhost:5174", "http://127.0.0.1:5174"  // this dashboard's own dev server
+})
 public class ClientController {
 
     private static final int MAX_RECENT_LOG_ENTRIES = 200;

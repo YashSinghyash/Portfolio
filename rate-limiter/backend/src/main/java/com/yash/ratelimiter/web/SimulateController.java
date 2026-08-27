@@ -16,7 +16,10 @@ import java.util.Map;
  * rate-limiting logic in it.
  */
 @RestController
-@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
+@CrossOrigin(origins = {
+        "http://localhost:5173", "http://127.0.0.1:5173", // portfolio (proxies this under /rate-limiter)
+        "http://localhost:5174", "http://127.0.0.1:5174"  // this dashboard's own dev server
+})
 public class SimulateController {
 
     @PostMapping("/simulate/{clientKey}")

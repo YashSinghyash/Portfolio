@@ -1,0 +1,255 @@
+/* Same design language as the portfolio site this gets embedded in: strict
+   black & white, system fonts only (no webfont download), CSS variables. */
+:root {
+  --bg: #000000;
+  --bg-elevated: #0d0d0d;
+  --fg: #ffffff;
+  --fg-muted: #a3a3a3;
+  --border: #2b2b2b;
+  --border-strong: #ffffff;
+  --allowed: #ffffff;
+  --blocked: #6b6b6b;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --max-width: 880px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ---------- Header ---------- */
+
+.app-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 0;
+}
+
+.app-header .container {
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.app-header-title {
+  text-decoration: none;
+  color: inherit;
+}
+
+.app-header h1 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.app-header .subtitle {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: var(--fg);
+}
+
+/* ---------- Client list ---------- */
+
+.dashboard-subtitle {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.client-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.client-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-elevated);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.client-card:hover,
+.client-card:focus-visible {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.client-card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.client-card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.client-card .client-key {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+}
+
+.client-card .client-limit {
+  margin-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--fg-muted);
+}
+
+.token-meter {
+  margin-top: 0.75rem;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.token-meter-fill {
+  height: 100%;
+  background: var(--fg);
+}
+
+/* ---------- Client detail ---------- */
+
+.client-detail-name {
+  margin: 0 0 0.25rem;
+}
+
+.section-label {
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--fg-muted);
+}
+
+.stat-row {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.5rem 0 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-tile {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  min-width: 120px;
+}
+
+.stat-tile .stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.stat-tile .stat-label {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.request-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.request-table th {
+  text-align: left;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 400;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.request-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  border: 1px solid var(--border);
+}
+
+.status-pill--allowed {
+  color: var(--allowed);
+  border-color: var(--allowed);
+}
+
+.status-pill--blocked {
+  color: var(--blocked);
+  border-color: var(--blocked);
+}
+
+.empty-state,
+.loading-state,
+.error-state {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 2rem 0;
+}
+
+.error-state {
+  color: var(--blocked);
+}
