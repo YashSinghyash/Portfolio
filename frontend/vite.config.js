@@ -16,6 +16,14 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/lru-cache/, ''),
       },
+      // Same idea for the Rate Limiter dashboard, except no rewrite: that app's
+      // own vite base + router basename are already "/rate-limiter", so its
+      // requests arrive expecting that prefix rather than a stripped path.
+      '/rate-limiter': {
+        target: 'http://localhost:5174',
+        changeOrigin: true,
+        ws: true, // Vite HMR websocket for the rate-limiter dev server
+      },
     },
   },
 })
